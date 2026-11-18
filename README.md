@@ -26,8 +26,9 @@ Quando seu PR for aceito, seu nome aparece no **mural de participantes** (o site
 ## 🧭 Por onde começar
 
 1. Leia o [CONTRIBUTING.md](CONTRIBUTING.md) **inteiro**. Sério. Ele tem uma regra que muita gente pula.
-2. Vá na aba **Issues** e filtre por `good first issue`.
-3. Siga o passo a passo do CONTRIBUTING.
+2. Faça o **fork**. Em alguns segundos, um robô 🤖 cria na aba **Issues** a sua **Tarefa 1**, com o seu nome.
+3. Depois dela, filtre as issues por `good first issue` para os próximos desafios.
+4. Siga o passo a passo do CONTRIBUTING.
 
 Travou? Abra uma issue usando o modelo **"Preciso de ajuda"** ou chame a pessoa instrutora. Errar faz parte. Este repositório existe para isso.
 
