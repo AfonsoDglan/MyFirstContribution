@@ -1,7 +1,7 @@
 ---
-nome: Seu Nome
-github: seu-usuario
-cidade: Sua Cidade - UF
+nome: Luiz Henrique
+github: NickLuiz
+cidade: Palmas - TO
 ---
 
-Escreva aqui uma frase sobre você: o que está estudando, o que gosta de fazer ou o que quer aprender.
+Estou estudando calculo, além de Estrutura de dados tambem.
