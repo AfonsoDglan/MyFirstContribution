@@ -1,0 +1,71 @@
+name: Boas-vindas (issue automática)
+
+# Toda vez que alguém faz FORK deste repositório, este workflow cria
+# uma issue personalizada com a primeira tarefa da pessoa.
+# Também dá para rodar na mão: Actions › Boas-vindas › Run workflow.
+on:
+  fork:
+  workflow_dispatch:
+    inputs:
+      usuario:
+        description: "Usuário do GitHub para quem criar a issue"
+        required: true
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: boas-vindas-${{ github.event.forkee.owner.login || inputs.usuario }}
+
+jobs:
+  criar-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Criar a issue da Tarefa 1
+        env:
+          GH_TOKEN: ${{ github.token }}
+          USUARIO: ${{ github.event.forkee.owner.login || inputs.usuario }}
+        run: |
+          set -euo pipefail
+
+          # Usuários do GitHub só têm letras, números e hífen.
+          if ! [[ "$USUARIO" =~ ^[A-Za-z0-9-]{1,39}$ ]]; then
+            echo "Usuário inválido: $USUARIO"
+            exit 1
+          fi
+
+          TITULO="Tarefa 1: adicione seu perfil (@$USUARIO)"
+
+          # Não cria de novo se a pessoa já tem a issue (fork apagado e refeito, por exemplo).
+          JA_EXISTE=$(gh issue list --repo "$GITHUB_REPOSITORY" --state all --limit 500 \
+            --json title --jq "[.[] | select(.title == \"$TITULO\")] | length")
+          if [ "$JA_EXISTE" != "0" ]; then
+            echo "A issue de @$USUARIO já existe. Nada a fazer."
+            exit 0
+          fi
+
+          # Garante que as labels existem.
+          gh label create "tarefa-1" --repo "$GITHUB_REPOSITORY" --color "0E8A16" \
+            --description "Primeira tarefa: perfil em participantes/" --force
+          gh label create "good first issue" --repo "$GITHUB_REPOSITORY" --color "7057ff" \
+            --description "Boa para a primeira contribuição" --force
+
+          sed "s/{{USUARIO}}/$USUARIO/g" .github/issue-automatica/tarefa-1.md > /tmp/issue.md
+
+          URL=$(gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "$TITULO" \
+            --body-file /tmp/issue.md \
+            --label "tarefa-1" --label "good first issue")
+          echo "Issue criada: $URL"
+
+          # Atribuir só funciona para quem tem acesso ao repositório;
+          # se não der, a pessoa já foi marcada com @ no texto da issue.
+          gh issue edit "$URL" --add-assignee "$USUARIO" \
+            || echo "Não foi possível atribuir @$USUARIO (normal para quem não é colaborador)."
+
+          # Avisa o número da issue para usar no "Closes #".
+          NUMERO="${URL##*/}"
+          gh issue comment "$URL" --body "Quando abrir o seu Pull Request, escreva **Closes #$NUMERO** na descrição. Assim esta issue fecha sozinha quando o PR for aceito. 🎉"
