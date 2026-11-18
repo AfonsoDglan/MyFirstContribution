@@ -5,7 +5,7 @@ Que bom ter você aqui! Este guia é curto, mas **cada regra existe por um motiv
 ## 📋 As regras
 
 1. **Peça a issue antes de começar.** Comente na issue algo como: *"Olá! Posso trabalhar nesta issue?"* e espere alguém te atribuir. Isso evita duas pessoas fazendo a mesma coisa.
-   - Exceção: a issue **"Adicione seu perfil"** é para todo mundo, não precisa pedir.
+   - Exceção: a sua **Tarefa 1** (adicionar seu perfil). Quando você faz o fork, um robô 🤖 cria automaticamente uma issue só sua, com o seu nome. Não precisa pedir.
 2. **Nunca trabalhe na `main`.** Crie uma branch com nome descritivo:
    `perfil/seu-usuario`, `docs/corrige-glossario-commit`, `feat/adiciona-termo-rebase`.
 3. **Um PR = um assunto.** Não misture seu perfil com correção do glossário.
@@ -35,8 +35,8 @@ Clique em **Fork** no canto superior direito. Agora você tem uma cópia do proj
 ### 2. Clone o **seu** fork
 
 ```bash
-git clone https://github.com/SEU-USUARIO/primeira-contribuicao.git
-cd primeira-contribuicao
+git clone https://github.com/SEU-USUARIO/MyFirstContribution.git
+cd MyFirstContribution
 ```
 
 ### 3. Crie uma branch
@@ -80,7 +80,7 @@ No GitHub, vai aparecer um botão **"Compare & pull request"**. Preencha o model
 ## 🔄 Mantendo seu fork atualizado (desafio extra)
 
 ```bash
-git remote add upstream https://github.com/DONO-ORIGINAL/primeira-contribuicao.git
+git remote add upstream https://github.com/AfonsoDglan/MyFirstContribution.git
 git fetch upstream
 git switch main
 git merge upstream/main
