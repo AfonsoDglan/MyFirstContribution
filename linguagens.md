@@ -8,4 +8,4 @@ Formato: `- **Linguagem**: motivo (@seu-usuario)`
 
 ---
 
-- **Python**: porque dá para fazer de tudo, de automação a IA (@instrutor)
+- **Python**: porque dá para fazer de tudo, de automação a IA (@AfonsoDglan)
