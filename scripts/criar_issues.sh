@@ -3,7 +3,7 @@
 # Uso: gh auth login  &&  ./scripts/criar_issues.sh SEU-USUARIO/primeira-contribuicao
 set -euo pipefail
 
-REPO="${1:?Informe o repositório, ex.: ./scripts/criar_issues.sh fulano/primeira-contribuicao}"
+REPO="${1:?Informe o repositório, ex.: ./scripts/criar_issues.sh AfonsoDglan/MyFirstContribution}"
 
 label() { gh label create "$1" --repo "$REPO" --color "$2" --description "$3" --force; }
 
@@ -11,21 +11,14 @@ label "good first issue" "7057ff" "Boa para a primeira contribuição"
 label "nível 2"          "fbca04" "Desafio extra: envolve conflito de merge"
 label "nível 3"          "d93f0b" "Desafio extra: mexe em código (HTML/CSS/JS)"
 label "documentação"     "0075ca" "Melhorias na documentação"
+label "tarefa-1"         "0E8A16" "Primeira tarefa: perfil em participantes/"
 label "ajuda"            "e99695" "Alguém travou e precisa de uma mão"
 label "sugestão"         "a2eeef" "Ideia de melhoria"
 
 issue() { gh issue create --repo "$REPO" --title "$1" --label "$2" --body "$3"; }
 
-issue "👋 Adicione seu perfil em participantes/" "good first issue" \
-"**Esta issue é para todo mundo, não precisa pedir para ser atribuída.**
-
-1. Leia o [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md)
-2. Faça fork, clone e crie a branch \`perfil/seu-usuario\`
-3. Copie \`participantes/_modelo.md\` para \`participantes/SEU-USUARIO.md\` e preencha
-4. Commit com \`docs: adiciona perfil de seu-usuario\`
-5. Abra o PR com \`Closes #1\` na descrição
-
-Quando o PR for aceito, você aparece no mural! 🎉"
+# A Tarefa 1 (perfil) é criada automaticamente para cada pessoa que faz fork:
+# veja .github/workflows/boas-vindas-fork.yml
 
 for par in "Repositorio|Repositório" "Comit|Commit" "Brench|Branch" "Pul Request|Pull Request"; do
   errado="${par%%|*}"; certo="${par##*|}"
@@ -72,4 +65,4 @@ issue "🔀 Desafio nível 3: botão para embaralhar a ordem do mural" "nível 3
 
 Comente aqui pedindo para pegar a issue antes de começar 🙋"
 
-echo "✅ Pronto! Agora fixe (pin) a issue #1 na página de issues."
+echo "✅ Pronto!"
