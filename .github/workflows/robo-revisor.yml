@@ -1,0 +1,26 @@
+name: Robô revisor
+
+# pull_request_target roda com o código da main (não do PR) e tem permissão
+# para comentar em PRs vindos de forks. Por segurança, o script NUNCA
+# executa código do PR: ele só lê os arquivos como texto pela API.
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # faz checkout da main, não do PR
+
+      - name: Conferir regras do CONTRIBUTING
+        run: python3 scripts/validar_pr.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}

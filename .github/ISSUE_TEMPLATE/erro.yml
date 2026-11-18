@@ -1,0 +1,24 @@
+name: 🐛 Encontrei um erro
+description: Achou um erro de digitação, link quebrado ou informação errada?
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: input
+    id: arquivo
+    attributes:
+      label: Em qual arquivo?
+      placeholder: docs/glossario.md
+    validations:
+      required: true
+  - type: textarea
+    id: descricao
+    attributes:
+      label: Qual é o erro e como deveria ser?
+    validations:
+      required: true
+  - type: checkboxes
+    id: quer-resolver
+    attributes:
+      label: Quer resolver?
+      options:
+        - label: Sim, quero abrir o PR para corrigir isso

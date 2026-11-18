@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mural da Primeira Contribuição</title>
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --borda: #30363d;
+    --texto: #e6edf3; --suave: #8b949e; --verde: #3fb950; --roxo: #a371f7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--texto);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  header { text-align: center; padding: 56px 20px 24px; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 8px; }
+  h1 span { color: var(--verde); }
+  header p { color: var(--suave); margin: 0 auto; max-width: 560px; line-height: 1.5; }
+  .contador {
+    display: inline-block; margin-top: 20px; padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--borda); font-weight: 600;
+  }
+  .contador b { color: var(--verde); }
+  .busca { display: flex; justify-content: center; padding: 0 20px 28px; }
+  .busca input {
+    width: 100%; max-width: 420px; padding: 10px 14px; border-radius: 8px;
+    border: 1px solid var(--borda); background: var(--card); color: var(--texto); font-size: 1rem;
+  }
+  main {
+    display: grid; gap: 16px; padding: 0 20px 60px; max-width: 1100px; margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--borda); border-radius: 12px;
+    padding: 20px; display: flex; flex-direction: column; gap: 10px;
+    transition: border-color .15s, transform .15s; text-decoration: none; color: inherit;
+  }
+  .card:hover { border-color: var(--roxo); transform: translateY(-2px); }
+  .topo { display: flex; gap: 12px; align-items: center; }
+  .topo img { width: 52px; height: 52px; border-radius: 50%; background: var(--borda); }
+  .nome { font-weight: 600; }
+  .user { color: var(--suave); font-size: .9rem; }
+  .cidade { color: var(--suave); font-size: .85rem; }
+  .frase { line-height: 1.45; font-size: .95rem; }
+  .vazio { grid-column: 1 / -1; text-align: center; color: var(--suave); padding: 40px; }
+  footer { text-align: center; color: var(--suave); padding: 0 20px 40px; font-size: .9rem; }
+  footer a { color: var(--roxo); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Mural da <span>Primeira Contribuição</span> 🎉</h1>
+    <p>Cada card aqui é um Pull Request aceito. Fork, branch, commit, PR, revisão e merge: essas pessoas fizeram o caminho completo.</p>
+    <div class="contador"><b id="total">0</b> contribuições aceitas</div>
+  </header>
+
+  <div class="busca">
+    <input id="filtro" type="search" placeholder="Buscar por nome, usuário ou cidade…" aria-label="Buscar participantes">
+  </div>
+
+  <main id="mural"><div class="vazio">Carregando…</div></main>
+
+  <footer>Quer aparecer aqui? Leia o <a id="contrib" href="#">CONTRIBUTING</a> e abra seu PR.</footer>
+
+<script>
+  // Descobre o repositório pela URL do GitHub Pages: usuario.github.io/repo
+  const dono = location.hostname.split(".")[0];
+  const repo = location.pathname.split("/").filter(Boolean)[0] || "primeira-contribuicao";
+  document.getElementById("contrib").href = `https://github.com/${dono}/${repo}/blob/main/CONTRIBUTING.md`;
+
+  const mural = document.getElementById("mural");
+  let pessoas = [];
+
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function desenhar(lista) {
+    if (!lista.length) {
+      mural.innerHTML = '<div class="vazio">Ninguém por aqui ainda. Seja a primeira pessoa! 🚀</div>';
+      return;
+    }
+    mural.innerHTML = lista.map(p => `
+      <a class="card" href="https://github.com/${encodeURIComponent(p.github)}" target="_blank" rel="noopener">
+        <div class="topo">
+          <img src="https://github.com/${encodeURIComponent(p.github)}.png?size=104" alt="" loading="lazy">
+          <div>
+            <div class="nome">${esc(p.nome)}</div>
+            <div class="user">@${esc(p.github)}</div>
+          </div>
+        </div>
+        ${p.cidade ? `<div class="cidade">📍 ${esc(p.cidade)}</div>` : ""}
+        <div class="frase">${esc(p.frase)}</div>
+      </a>`).join("");
+  }
+
+  fetch("participantes.json")
+    .then(r => r.json())
+    .then(dados => {
+      pessoas = dados;
+      document.getElementById("total").textContent = dados.length;
+      desenhar(pessoas);
+    })
+    .catch(() => { mural.innerHTML = '<div class="vazio">Não consegui carregar o mural.</div>'; });
+
+  document.getElementById("filtro").addEventListener("input", e => {
+    const t = e.target.value.toLowerCase();
+    desenhar(pessoas.filter(p => [p.nome, p.github, p.cidade].join(" ").toLowerCase().includes(t)));
+  });
+</script>
+</body>
+</html>

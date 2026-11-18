@@ -1,0 +1,35 @@
+name: 🆘 Preciso de ajuda
+description: Travou em algum passo? Conta pra gente.
+title: "ajuda: "
+labels: ["ajuda"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Errar faz parte! Quanto mais detalhes você der, mais rápido alguém consegue ajudar.
+  - type: dropdown
+    id: etapa
+    attributes:
+      label: Em qual etapa você travou?
+      options:
+        - Fork
+        - Clone
+        - Criar branch
+        - Commit
+        - Push
+        - Abrir o Pull Request
+        - O robô reclamou do meu PR
+        - Conflito de merge
+        - Outra
+    validations:
+      required: true
+  - type: textarea
+    id: comando
+    attributes:
+      label: Qual comando você rodou e o que apareceu?
+      description: Cole a mensagem de erro completa.
+      render: shell
+  - type: textarea
+    id: tentativas
+    attributes:
+      label: O que você já tentou?
