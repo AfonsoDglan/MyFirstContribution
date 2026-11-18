@@ -7,9 +7,9 @@ Como preparar e conduzir a prática com este repositório.
 ### 1. Suba o repositório
 
 ```bash
-cd primeira-contribuicao
+cd MyFirstContribution
 git init && git add . && git commit -m "chore: estrutura inicial"
-gh repo create primeira-contribuicao --public --source . --push
+gh repo create MyFirstContribution --public --source . --push
 ```
 
 ### 2. Troque os textos provisórios
@@ -26,16 +26,16 @@ grep -rn "SEU-USUARIO\|DONO-ORIGINAL\|SEU NOME\|@instrutor" .
 
 ### 3. Ative o mural (GitHub Pages)
 
-**Settings → Pages → Source: GitHub Actions.** Depois rode o workflow **Publicar mural** em **Actions → Publicar mural → Run workflow**. O site fica em `https://SEU-USUARIO.github.io/primeira-contribuicao/`.
+**Settings → Pages → Source: GitHub Actions.** Depois rode o workflow **Publicar mural** em **Actions → Publicar mural → Run workflow**. O site fica em `https://SEU-USUARIO.github.io/MyFirstContribution/`.
 
 ### 4. Crie as labels e issues
 
 ```bash
 gh auth login
-./scripts/criar_issues.sh SEU-USUARIO/primeira-contribuicao
+./scripts/criar_issues.sh SEU-USUARIO/MyFirstContribution
 ```
 
-Depois **fixe (pin) a issue #1**.
+A Tarefa 1 (perfil) não está no script: o workflow **Boas-vindas** cria uma issue personalizada automaticamente para cada pessoa que faz fork. Para testar sem fork, rode em **Actions › Boas-vindas (issue automática) › Run workflow** informando um usuário.
 
 ### 5. Proteja a main (recomendado)
 
@@ -79,7 +79,7 @@ Com uma segunda conta (ou peça a alguém), faça um PR de perfil **com erros de
 
 | Sintoma | Causa provável | Solução |
 |---|---|---|
-| `Permission denied` / `403` no push | Clonou o repositório original, não o fork | `git remote set-url origin https://github.com/USUARIO/primeira-contribuicao.git` |
+| `Permission denied` / `403` no push | Clonou o repositório original, não o fork | `git remote set-url origin https://github.com/USUARIO/MyFirstContribution.git` |
 | Pede senha e não aceita | GitHub não aceita senha no terminal | `gh auth login` ou criar um Personal Access Token |
 | `Author identity unknown` | Faltou `git config` | Rodar os dois `git config --global` da colinha |
 | Commit foi feito na main | Esqueceu de criar a branch | `git switch -c perfil/usuario` e dar push dessa branch |
